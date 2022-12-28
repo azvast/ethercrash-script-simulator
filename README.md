@@ -1,0 +1,1 @@
+# Ethercrash Script Simulator

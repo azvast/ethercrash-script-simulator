@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <link rel='stylesheet prefetch' href='css/bootstrap.min.css'>
+    <link rel='stylesheet prefetch' href='css/glyphicons.css'>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <title>EtherCrash.io Script Simulator</title>
+</head>
+
+<body>
+    <div class="form-horizontal">
+        <legend> &nbsp;&nbsp;EtherCrash.io Script Simulator </legend>
+        <fieldset>
+            <!-- Text input-->
+            <div class="form-group">
+                <label class="col-md-9 control-label">Game hash</label>
+                <div class="col-md-9 inputGroupContainer">
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <i class="glyphicons glyphicons-keys"></i>
+                        </span>
+                        <input id="endHash" placeholder="Game Hash" class="form-control" type="text"
+                            value="fcbd34149bb5c22086061366f7635c1856d128b09b3a49dae30b46a1ad15d8a8">
+                    </div>
+                </div>
+            </div>
+            <!-- Text input-->
+            <div class="form-group">
+                <label class="col-md-9 control-label">Start balance</label>
+                <div class="col-md-9 inputGroupContainer">
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <i class="glyphicons glyphicons-hash"></i>
+                        </span>
+                        <input id="startBalInput" placeholder="Starting Balance" class="form-control" type="text"
+                            value="10000">
+                    </div>
+                </div>
+            </div>
+            <!-- Text input-->
+            <div class="form-group">
+                <label class="col-md-9 control-label">Game amounts</label>
+                <div class="col-md-9 inputGroupContainer">
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <i class="glyphicons glyphicons-hash"></i>
+                        </span>
+                        <input id="backAmount" placeholder="Amount of games to calculate back" class="form-control"
+                            type="text" value="50">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-9 control-label">Script</label>
+                <div class="col-md-9 inputGroupContainer">
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <i class="glyphicons glyphicons-edit"></i>
+                        </span>
+                        <textarea id="scriptText" class="form-control" placeholder="Paste your script here"></textarea>
+                    </div>
+                </div>
+            </div>
+            <!-- Button -->
+            <div class="form-group">
+                <div class="col-md-3 startCalc">
+                    <button id="startCalcBtn" class="btn btn-primary">Run Script</button>
+                </div>
+                <div class="col-md-9 unlift" id="chartCheck">
+                    <label class="checkboxy">
+                        <input type="checkbox" class="checkboxy" id="chartCheckbox" checked> Enable Chart
+                    </label>
+                </div>
+                <div class="col-md-9 unlift" id="autoCheck">
+                    <label class="checkbox">
+                        <input type="checkbox" class="checkboxy" id="autoCheckbox"> Use Auto Config (ignores script)
+                    </label>
+                    <a class="checkboxy" data-toggle="modal" data-target="#autoModal">
+                        <small>(Configure)</small>
+                    </a>
+                </div>
+            </div>
+        </fieldset>
+        <div class="resultscontainer">
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <th>Games played</th>
+                        <td id="numGames"></td>
+                        <th>Duration</th>
+                        <td id="duration"></td>
+                    </tr>
+                    <tr>
+                        <th>Start balance</th>
+                        <td id="startBal"></td>
+                        <th>End Balance</th>
+                        <td id="balance"></td>
+                    </tr>
+                    <tr>
+                        <th>Lowest balance</th>
+                        <td id="lowestBal"></td>
+                        <th>Highest balance</th>
+                        <td id="highestBal"></td>
+                    </tr>
+                    <tr>
+                        <th>Win Streak</th>
+                        <td id="winStreak"></td>
+                        <th>Lose Streak</th>
+                        <td id="loseStreak"></td>
+                    </tr>
+                    <tr>
+                        <th>Lowest net</th>
+                        <td id="lowestNet"></td>
+                        <th>Lose Streak Cost</th>
+                        <td id="maxLoseStreakCost"></td>
+                    </tr>
+                    <tr>
+                        <th>Lowest Profit</th>
+                        <td id="lowestProfit"></td>
+                        <th>Highest Profit</th>
+                        <td id="highestProfit"></td>
+                    </tr>
+                    <tr>
+                        <th>Profit</th>
+                        <td id="netProfit"></td>
+                        <th></th>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="modal fade" id="autoModal" tabindex="-1" role="dialog" aria-labelledby="autoModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="autoModalLabel">Auto Settings</h4>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-striped">
+                        <tbody>
+                            <tr>
+                                <td>Base Bet: <input id="autoBaseBet" type="text" class="autoInput" value="1"> Bits
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Auto Cashout at: <input id="autoAutoCashout" type="text" class="autoInput"
+                                        value="2">&#215; </td>
+                            </tr>
+                            <tr>
+                                <td>Stop if bet is &gt; <input id="autoStopAt" type="text" class="autoInput"
+                                        value="1000000"> Bits </td>
+                            </tr>
+                            <tr>
+                                <td>On loss: <br>
+                                    <label class="radioey">
+                                        <input id="lossRtbb" class="radioey" type="radio" name="onLoss" checked> Return
+                                        to base bet </label>
+                                    <br />
+                                    <label class="radioey">
+                                        <input class="radioey" type="radio" name="onLoss" id="lossDRtbb"> Increase bet
+                                        by: <input type="text" id="lossIbb" class="autoInput" value="2">&#215; </label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>On win: <br>
+                                    <label class="radioey">
+                                        <input id="winRtbb" class="radioey" type="radio" name="onWin" checked> Return to
+                                        base bet </label>
+                                    <br>
+                                    <label class="radioey">
+                                        <input class="radioey" type="radio" name="onWin" value="ibbb" id="winDRtbb">
+                                        Increase bet by: <input type="text" id="winIbb" class="autoInput"
+                                            value="2">&#215; </label>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal"
+                        onclick="babScriptTester.savePrefs();">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="chartdiv"></div>
+    <script src='https://code.jquery.com/jquery-1.11.2.min.js'></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://www.amcharts.com/lib/3/amcharts.js"></script>
+    <script src="https://www.amcharts.com/lib/3/serial.js"></script>
+    <script src="https://www.amcharts.com/lib/3/plugins/export/export.min.js"></script>
+    <link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css"
+        media="all" />
+    <script src="https://www.amcharts.com/lib/3/themes/light.js"></script>
+    <script src="https://www.amcharts.com/lib/3/themes/dark.js"></script>
+    <script src="js/core.js"></script>
+    <script src="js/sha256.js"></script>
+    <script src="js/hmac.js"></script>
+    <script src="js/BaBScriptTest.js"></script>
+</body>
+
+</html>
