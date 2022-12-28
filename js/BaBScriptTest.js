@@ -271,7 +271,7 @@ babScriptTester.startCalculation = function () {
                     "lineThickness": 2,
                     "title": "red line",
                     "valueField": "balance",
-                    "balloonText": "<div style='text-align:left;font-size:13px'>bulletSize: [[bulletSize]]<br />Bet: [[betAmount]] Ethos<br />Crash At: [[crashAt]]x<br />Cashed Out: [[cashedOut]]<br />Profit: [[profit]] Ethos<br />Balance: [[balance]] Ethos<div>"
+                    "balloonText": "<div style='text-align:left;font-size:13px'>Bet: [[betAmount]] Ethos<br />Crash At: [[crashAt]]x<br />Cashed Out: [[cashedOut]]<br />Profit: [[profit]] Ethos<br />Balance: [[balance]] Ethos<div>"
                 }],
                 "chartScrollbar": {
                     "graph": "g1",
